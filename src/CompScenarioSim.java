@@ -14,14 +14,16 @@ public class CompScenarioSim extends javax.swing.JFrame {
      * Creates new form ProjectMM
      */
     public CompScenarioSim() {
-        initComponents();
         link = new LinkedPanel(
-                new LinkedPanelNode("This is a test description to see if it works.", "NGGYU.mp4", "hi",
+                new LinkedPanelNode("WELCOME TO DA LAB", 
+                    new LinkedPanelNode("This is a test description to see if it works.", "NGGYU.mp4", "hi",
                         new LinkedPanelNode("Welcome to the second panel!", "6_20.mp4", "bye",
-                                new LinkedPanelNode("This is it", "2017-03-27-2329-40.mp4")
+                                new LinkedPanelNode("This is it", "2017-03-27-2329-40.mp4")                               
                         )
+                    )
                 )
-        );
+            );
+        initComponents();
         add(link);
     }
 
@@ -35,9 +37,8 @@ public class CompScenarioSim extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(800, 450));
-        setMinimumSize(new java.awt.Dimension(800, 450));
-        setPreferredSize(new java.awt.Dimension(800, 450));
+        setPreferredSize(link.getPreferredSize()
+        );
         setResizable(false);
         getContentPane().setLayout(new java.awt.CardLayout());
 
