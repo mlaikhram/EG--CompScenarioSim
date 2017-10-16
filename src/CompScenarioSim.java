@@ -16,7 +16,7 @@ public class CompScenarioSim extends javax.swing.JFrame {
     public CompScenarioSim() {
         link = new LinkedPanel(
                 new LinkedPanelNode("WELCOME TO DA LAB", 
-                    new LinkedPanelNode("This is a test description to see if it works.", "NGGYU.mp4", "hi",
+                    new LinkedPanelNode("This is a test description to see if it works. This is a test description to see if it works.This is a test description to see if it works.This is a test description to see if it works.This is a test description to see if it works.This is a test description to see if it works.This is a test description to see if it works.This is a test description to see if it works.This is a test description to see if it works.This is a test description to see if it works.This is a test description to see if it works.This is a test description to see if it works.This is a test description to see if it works.This is a test description to see if it works.This is a test description to see if it works.This is a test description to see if it works.This is a test description to see if it works.This is a test description to see if it works.This is a test description to see if it works.This is a test \ndescription to see if it works.This is a test description to see if it works.", "NGGYU.mp4", "hi",
                         new LinkedPanelNode("Welcome to the second panel!", "6_20.mp4", "bye",
                                 new LinkedPanelNode("This is it", "2017-03-27-2329-40.mp4")                               
                         )

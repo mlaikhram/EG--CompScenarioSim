@@ -43,26 +43,8 @@ public class LinkedPanel extends javax.swing.JPanel implements FinishedListener 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentRemoved(java.awt.event.ContainerEvent evt) {
-                formComponentRemoved(evt);
-            }
-        });
-        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                formPropertyChange(evt);
-            }
-        });
         setLayout(new java.awt.CardLayout());
     }// </editor-fold>//GEN-END:initComponents
-
-    private void formComponentRemoved(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_formComponentRemoved
-        // TODO add your handling code here:
-    }//GEN-LAST:event_formComponentRemoved
-
-    private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_formPropertyChange
-        
-    }//GEN-LAST:event_formPropertyChange
 
     private LinkedPanelNode headPanel;
     // Variables declaration - do not modify//GEN-BEGIN:variables
