@@ -1,10 +1,14 @@
 
 import java.awt.Desktop;
+import java.awt.FontMetrics;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -112,7 +116,6 @@ public class LinkedPanelNode extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         flowPanel = new javax.swing.JPanel();
         replayButton = new javax.swing.JButton();
@@ -121,7 +124,8 @@ public class LinkedPanelNode extends javax.swing.JPanel {
         padLabel2 = new javax.swing.JLabel();
         continueButton = new javax.swing.JButton();
         contentPanel = new javax.swing.JPanel();
-        descriptionLabel = new javax.swing.JLabel();
+        descriptionScrollPane = new javax.swing.JScrollPane();
+        descriptionTextPane = new javax.swing.JTextPane();
         backgroundLabel = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(1600, 900));
@@ -172,22 +176,60 @@ public class LinkedPanelNode extends javax.swing.JPanel {
         contentPanel.setPreferredSize(new java.awt.Dimension(780, 240));
         contentPanel.setLayout(new java.awt.GridBagLayout());
 
-        descriptionLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        descriptionLabel.setForeground(new java.awt.Color(255, 255, 255));
-        descriptionLabel.setText(description);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(116, 382, 91, 364);
-        contentPanel.add(descriptionLabel, gridBagConstraints);
+        descriptionScrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        descriptionScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        descriptionScrollPane.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        descriptionScrollPane.setMaximumSize(new java.awt.Dimension(900, 450));
+        descriptionScrollPane.setMinimumSize(new java.awt.Dimension(900, 33));
+        descriptionScrollPane.setOpaque(false);
+        descriptionScrollPane.getViewport().setOpaque(false);
+        descriptionScrollPane.setPreferredSize(new java.awt.Dimension(900, 33));
+
+        descriptionTextPane.setEditable(false);
+        descriptionTextPane.setBackground(new java.awt.Color(255, 255, 255, 0));
+        descriptionTextPane.setBorder(null);
+        descriptionTextPane.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        descriptionTextPane.setForeground(new java.awt.Color(255, 255, 255));
+        descriptionTextPane.setText(description);
+        descriptionTextPane.setOpaque(false);
+        descriptionTextPane.setPreferredSize(new java.awt.Dimension(900, 87));
+        StyledDocument doc = descriptionTextPane.getStyledDocument();
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
+        descriptionScrollPane.setViewportView(descriptionTextPane);
+        //count lines to determine width of scrollpane
+        int lineCount = 1;
+        FontMetrics fm = descriptionTextPane.getFontMetrics(descriptionTextPane.getFont());
+        int width = descriptionTextPane.getPreferredSize().width;
+        String text = descriptionTextPane.getText();
+        String line = "";
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            if (c != '\n') {
+                if (fm.stringWidth(line + c) <= width) {
+                    line += c;
+                } else {
+                    ++lineCount;
+                    line = "" + c;
+                }
+            }
+        }
+        //find a new height within the bounds of the scrollPane
+        int newHeight = descriptionScrollPane.getPreferredSize().height * lineCount;
+        if (newHeight > descriptionScrollPane.getMaximumSize().height) {
+            newHeight = descriptionScrollPane.getMaximumSize().height;
+        }
+        descriptionScrollPane.setPreferredSize(new java.awt.Dimension(descriptionScrollPane.getPreferredSize().width, newHeight));
+
+        //move scrollbar to the top of the text
+        descriptionTextPane.setCaretPosition(0);
+
+        contentPanel.add(descriptionScrollPane, new java.awt.GridBagConstraints());
 
         add(contentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1600, 500));
 
         backgroundLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/background.jpg"))); // NOI18N
-        backgroundLabel.setMaximumSize(new java.awt.Dimension(1600, 900));
-        backgroundLabel.setMinimumSize(new java.awt.Dimension(1600, 900));
-        backgroundLabel.setPreferredSize(new java.awt.Dimension(1600, 900));
         add(backgroundLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -222,7 +264,8 @@ public class LinkedPanelNode extends javax.swing.JPanel {
     private javax.swing.JTextField codeTextField;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JButton continueButton;
-    private javax.swing.JLabel descriptionLabel;
+    private javax.swing.JScrollPane descriptionScrollPane;
+    private javax.swing.JTextPane descriptionTextPane;
     private javax.swing.JPanel flowPanel;
     private javax.swing.JLabel padLabel1;
     private javax.swing.JLabel padLabel2;
