@@ -26,24 +26,24 @@ public class LinkedPanelNode extends javax.swing.JPanel {
      * Creates new form LinkedPanel
      * @param _description
      * @param _movie
-     * @param _code
+     * @param _passcode
      * @param _next
      */
-    public LinkedPanelNode(String _description, String _movie, String _code, LinkedPanelNode _next) {
+    public LinkedPanelNode(String _description, String _movie, String _passcode, LinkedPanelNode _next) {
         listeners = new ArrayList<>();
         description = _description;
         movie = _movie;
-        passCode = _code;
+        passCode = _passcode;
         next = _next;
         initComponents();
         initVisibility();
     }
     
-    public LinkedPanelNode(String _description, String _movie, String _code) {
+    public LinkedPanelNode(String _description, String _movie, String _passcode) {
         listeners = new ArrayList<>();
         description = _description;
         movie = _movie;
-        passCode = _code;
+        passCode = _passcode;
         next = null;
         initComponents();
         initVisibility();
@@ -80,16 +80,18 @@ public class LinkedPanelNode extends javax.swing.JPanel {
     }
     
     private void initVisibility() {
-        if (movie.equals("")){ 
+        if (movie.equals("") || movie.equals("none")){ 
             replayButton.setVisible(false);
             padLabel1.setVisible(false);
         }
-        if (passCode.equals("")){
+        if (passCode.equals("") || passCode.equals("none")){
             codeTextField.setVisible(false);
             padLabel2.setVisible(false);
         }
         if (next == null){
             continueButton.setText("Finish");
+        } else {
+            continueButton.setText("Continue");
         }
     }
     
@@ -97,8 +99,13 @@ public class LinkedPanelNode extends javax.swing.JPanel {
         return next;
     }  
      
+    public void setNext(LinkedPanelNode newNext) {
+        next = newNext;
+        initVisibility();
+    }
+    
     public void playMovie() {
-        if (!movie.equals("")) {
+        if (!(movie.equals("") || movie.equals("none"))) {
             try {          
                 File file = new File(System.getProperty("user.dir") + "/src", movie);
                 Desktop.getDesktop().open(file);
@@ -238,7 +245,7 @@ public class LinkedPanelNode extends javax.swing.JPanel {
     }//GEN-LAST:event_replayButtonMouseClicked
 
     private void continueButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_continueButtonMouseClicked
-        if ("".equals(passCode) || codeTextField.getText().equals(passCode)) {
+        if ("".equals(passCode) || "none".equals(passCode) || codeTextField.getText().equals(passCode)) {
             //if (next == null) System.exit(0);         
             //codeTextField.setText("Correct Code");
             for (FinishedListener f : listeners) {
