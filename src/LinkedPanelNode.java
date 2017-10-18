@@ -80,18 +80,26 @@ public class LinkedPanelNode extends javax.swing.JPanel {
     }
     
     private void initVisibility() {
-        if (movie.equals("") || movie.equals("none")){ 
-            replayButton.setVisible(false);
-            padLabel1.setVisible(false);
-        }
-        if (passCode.equals("") || passCode.equals("none")){
-            codeTextField.setVisible(false);
-            padLabel2.setVisible(false);
-        }
-        if (next == null){
-            continueButton.setText("Finish");
-        } else {
-            continueButton.setText("Continue");
+        try {
+            if (movie.equals("") || movie.equals("none")){ 
+                replayButton.setVisible(false);
+                padLabel1.setVisible(false);
+                media = null;
+            }
+            else {
+                //media = new MediaPanel(movie, this);
+            }
+            if (passCode.equals("") || passCode.equals("none")){
+                codeTextField.setVisible(false);
+                padLabel2.setVisible(false);
+            }
+            if (next == null){
+                continueButton.setText("Finish");
+            } else {
+                continueButton.setText("Continue");
+            }
+        } catch (Exception ex) {
+            System.out.println("Something went wrong with media player");
         }
     }
     
@@ -104,11 +112,15 @@ public class LinkedPanelNode extends javax.swing.JPanel {
         initVisibility();
     }
     
+    public MediaPanel getMedia() {
+        return media;
+    }
+    
     public void playMovie() {
         if (!(movie.equals("") || movie.equals("none"))) {
             try {          
                 File file = new File(System.getProperty("user.dir") + "/src", movie);
-                Desktop.getDesktop().open(file);
+                Desktop.getDesktop().open(file);             
             } catch (IOException ex) {
                 Logger.getLogger(CompScenarioSim.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -263,6 +275,7 @@ public class LinkedPanelNode extends javax.swing.JPanel {
     
     private String description;
     private String movie;
+    private MediaPanel media;
     private String passCode;
     private LinkedPanelNode next;
     private ArrayList<FinishedListener> listeners;
