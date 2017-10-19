@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import javax.media.CannotRealizeException;
 import javax.media.Manager;
 import javax.media.NoPlayerException;
@@ -24,16 +25,18 @@ public class MediaPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form MediaPanel
-     * @param filename
      */
-    public MediaPanel(String filename, LinkedPanelNode _next) throws MalformedURLException, IOException, NoPlayerException, CannotRealizeException {
+    public MediaPanel(File file, LinkedPanelNode _next) throws MalformedURLException, IOException, NoPlayerException, CannotRealizeException {
+        listeners = new ArrayList<>();
         initComponents();
         next = _next;
         mediaPanel.setLayout(new BorderLayout());
-        //file you want to play
-        URL mediaURL = new URL(filename);
+        //System.out.println(System.getProperty("user.dir") + "\\src\\" + filename);
+        URL mediaURL = file.toURI().toURL();
+        System.out.println("created URL");
         //create the media player with the media url
         Player mediaPlayer = Manager.createRealizedPlayer(mediaURL);
+        System.out.println("created media player");
         //get components for video and playback controls
         Component video = mediaPlayer.getVisualComponent();
         Component controls = mediaPlayer.getControlPanelComponent();
@@ -41,6 +44,9 @@ public class MediaPanel extends javax.swing.JPanel {
         mediaPanel.add(controls,BorderLayout.SOUTH);
     }
 
+    public void addListener(MediaListener listener) {
+        listeners.add(listener);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -75,6 +81,7 @@ public class MediaPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private LinkedPanelNode next;
+    private ArrayList<MediaListener> listeners;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel backgroundLabel;
     private javax.swing.JButton continueButton;

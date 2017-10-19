@@ -19,6 +19,7 @@ public class LinkedPanel extends javax.swing.JPanel implements FinishedListener 
         headPanel = head;
         add(headPanel);
         headPanel.addListener(this);
+        //if (headPanel.getMedia() != null) headPanel.getMedia().addListener(this);
         headPanel.playMovie();
     }
     
@@ -34,6 +35,15 @@ public class LinkedPanel extends javax.swing.JPanel implements FinishedListener 
         revalidate();
     }
 
+    /*@Override
+    public void fireMedia() {
+        if (headPanel.getMedia() != null) {
+            removeAll();
+            add(headPanel.getMedia());
+            repaint();
+            revalidate();
+        }
+    }*/
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

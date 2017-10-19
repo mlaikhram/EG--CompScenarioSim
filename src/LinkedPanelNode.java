@@ -84,10 +84,12 @@ public class LinkedPanelNode extends javax.swing.JPanel {
             if (movie.equals("") || movie.equals("none")){ 
                 replayButton.setVisible(false);
                 padLabel1.setVisible(false);
-                media = null;
+                file = null;
+                //media = null;
             }
             else {
-                //media = new MediaPanel(movie, this);
+                file = new File(System.getProperty("user.dir") + "/src", movie);
+                //media = new MediaPanel(file, this);
             }
             if (passCode.equals("") || passCode.equals("none")){
                 codeTextField.setVisible(false);
@@ -99,7 +101,7 @@ public class LinkedPanelNode extends javax.swing.JPanel {
                 continueButton.setText("Continue");
             }
         } catch (Exception ex) {
-            System.out.println("Something went wrong with media player");
+            System.out.println("Something went wrong with media player" + ex);
         }
     }
     
@@ -109,17 +111,20 @@ public class LinkedPanelNode extends javax.swing.JPanel {
      
     public void setNext(LinkedPanelNode newNext) {
         next = newNext;
-        initVisibility();
+        if (next == null){
+                continueButton.setText("Finish");
+        } else {
+            continueButton.setText("Continue");
+        }
     }
     
-    public MediaPanel getMedia() {
+    /*public MediaPanel getMedia() {
         return media;
-    }
+    }*/
     
     public void playMovie() {
         if (!(movie.equals("") || movie.equals("none"))) {
             try {          
-                File file = new File(System.getProperty("user.dir") + "/src", movie);
                 Desktop.getDesktop().open(file);             
             } catch (IOException ex) {
                 Logger.getLogger(CompScenarioSim.class.getName()).log(Level.SEVERE, null, ex);
@@ -275,7 +280,8 @@ public class LinkedPanelNode extends javax.swing.JPanel {
     
     private String description;
     private String movie;
-    private MediaPanel media;
+    private File file;
+    //private MediaPanel media;
     private String passCode;
     private LinkedPanelNode next;
     private ArrayList<FinishedListener> listeners;

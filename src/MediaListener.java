@@ -6,10 +6,10 @@
 
 /**
  *
- * @author Matthew Laikhram
+ * @author Matthew
  */
 
-//listener for linkedPanel to know when a next button is pressed on a linkedPanelNode
-public interface FinishedListener {
-    public void fireFinished();
+//listener for LinkedPanel to know when a replay movie button is pressed on a linkedPanel
+public interface MediaListener {
+    public void fireMedia();
 }
