@@ -29,12 +29,26 @@ public class LinkedPanel extends javax.swing.JPanel implements FinishedListener 
         removeAll();
         headPanel = headPanel.getNext();
         add(headPanel);
-        headPanel.addListener(this);
-        headPanel.playMovie();
+        if (!headPanel.getListeners().contains(this)) {
+            headPanel.addListener(this);
+            headPanel.playMovie();
+        }
         repaint();
         revalidate();
     }
 
+    @Override
+    public void firePrev() {
+        removeAll();
+        headPanel = headPanel.getPrev();
+        add(headPanel);
+        if (!headPanel.getListeners().contains(this)) {
+            headPanel.addListener(this);
+            headPanel.playMovie();
+        }
+        repaint();
+        revalidate();
+    }
     /*@Override
     public void fireMedia() {
         if (headPanel.getMedia() != null) {

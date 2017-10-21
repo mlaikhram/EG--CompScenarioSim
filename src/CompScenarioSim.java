@@ -24,8 +24,9 @@ public class CompScenarioSim extends javax.swing.JFrame {
         //scanner.useDelimiter("\r\n");
         
         ArrayList<LinkedPanelNode> nodes = new ArrayList<LinkedPanelNode>();
+        ArrayList<Boolean> prevLinks = new ArrayList<Boolean>();
         
-        String temp;
+        String temp = "";
         String description = "";
         String background;
         String movie;
@@ -39,9 +40,9 @@ public class CompScenarioSim extends javax.swing.JFrame {
                     break;
                 }
                 else {
-                    if (!description.equals("")) {
-                        description += System.getProperty("line.separator");
-                    }
+                    //if (!description.equals("")) {
+                        //description += System.getProperty("line.separator");
+                    //}
                     description += temp;
                 }
             }
@@ -53,7 +54,14 @@ public class CompScenarioSim extends javax.swing.JFrame {
             temp = scanner.next();
             if (temp.equals("none")) passcode = "none";
             else passcode = temp;
-            nodes.add(new LinkedPanelNode(description, background, movie, passcode, null));
+            temp = scanner.next();
+            if (temp.equals("true")) {
+                prevLinks.add(true);
+            }
+            else {
+                prevLinks.add(false);
+            }
+            nodes.add(new LinkedPanelNode(description, background, movie, passcode, null, null));
             description = "";
         }
         /*
@@ -68,6 +76,9 @@ public class CompScenarioSim extends javax.swing.JFrame {
         }*/
         for(int i = 1; i < nodes.size(); ++i) {
             nodes.get(i-1).setNext(nodes.get(i));
+            if (prevLinks.get(i)) {
+                nodes.get(i).setPrev(nodes.get(i-1));
+            }
         }
         link = new LinkedPanel(nodes.get(0));
         initComponents();

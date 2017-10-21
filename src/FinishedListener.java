@@ -12,4 +12,5 @@
 //listener for linkedPanel to know when a next button is pressed on a linkedPanelNode
 public interface FinishedListener {
     public void fireFinished();
+    public void firePrev();
 }

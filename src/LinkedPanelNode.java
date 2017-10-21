@@ -29,12 +29,13 @@ public class LinkedPanelNode extends javax.swing.JPanel {
      * @param _passcode
      * @param _next
      */
-    public LinkedPanelNode(String _description, String _background, String _movie, String _passcode, LinkedPanelNode _next) {
+    public LinkedPanelNode(String _description, String _background, String _movie, String _passcode, LinkedPanelNode _prev, LinkedPanelNode _next) {
         listeners = new ArrayList<>();
         description = _description;
         background = _background;
         movie = _movie;
         passCode = _passcode;
+        prev = _prev;
         next = _next;
         initComponents();
         initVisibility();
@@ -56,13 +57,30 @@ public class LinkedPanelNode extends javax.swing.JPanel {
                 codeTextField.setVisible(false);
                 padLabel2.setVisible(false);
             }
-            if (next == null){
+            if (prev == null) {
+                previousButton.setVisible(false);
+            }
+            if (next == null) {
                 continueButton.setText("Finish");
             } else {
-                continueButton.setText("Continue");
+                continueButton.setText("Next");
             }
         } catch (Exception ex) {
             System.out.println("Something went wrong with media player" + ex);
+        }
+    }
+    
+    public LinkedPanelNode getPrev() {
+        return prev;
+    }  
+     
+    public void setPrev(LinkedPanelNode newPrev) {
+        prev = newPrev;
+        if (prev == null){
+                previousButton.setVisible(false);
+        }
+        else {
+            previousButton.setVisible(true);
         }
     }
     
@@ -75,7 +93,7 @@ public class LinkedPanelNode extends javax.swing.JPanel {
         if (next == null){
                 continueButton.setText("Finish");
         } else {
-            continueButton.setText("Continue");
+            continueButton.setText("Next");
         }
     }
     
@@ -107,6 +125,7 @@ public class LinkedPanelNode extends javax.swing.JPanel {
         padLabel1 = new javax.swing.JLabel();
         codeTextField = new javax.swing.JTextField();
         padLabel2 = new javax.swing.JLabel();
+        previousButton = new javax.swing.JButton();
         continueButton = new javax.swing.JButton();
         contentPanel = new javax.swing.JPanel();
         descriptionScrollPane = new javax.swing.JScrollPane();
@@ -145,6 +164,14 @@ public class LinkedPanelNode extends javax.swing.JPanel {
         padLabel2.setText("                 ");
         flowPanel.add(padLabel2, new java.awt.GridBagConstraints());
 
+        previousButton.setText("Previous");
+        previousButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                previousButtonMouseClicked(evt);
+            }
+        });
+        flowPanel.add(previousButton, new java.awt.GridBagConstraints());
+
         continueButton.setText("Next");
         continueButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -153,7 +180,7 @@ public class LinkedPanelNode extends javax.swing.JPanel {
         });
         flowPanel.add(continueButton, new java.awt.GridBagConstraints());
 
-        add(flowPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 500, 1600, 400));
+        add(flowPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 600, 1600, 300));
 
         contentPanel.setMaximumSize(new java.awt.Dimension(780, 240));
         contentPanel.setMinimumSize(new java.awt.Dimension(780, 240));
@@ -168,11 +195,12 @@ public class LinkedPanelNode extends javax.swing.JPanel {
         descriptionScrollPane.setMinimumSize(new java.awt.Dimension(900, 33));
         descriptionScrollPane.setOpaque(false);
         descriptionScrollPane.getViewport().setOpaque(false);
-        descriptionScrollPane.setPreferredSize(new java.awt.Dimension(900, 33));
+        descriptionScrollPane.setPreferredSize(new java.awt.Dimension(900, 600));
 
         descriptionTextPane.setEditable(false);
         descriptionTextPane.setBackground(new java.awt.Color(255, 255, 255, 0));
         descriptionTextPane.setBorder(null);
+        descriptionTextPane.setContentType("text/html"); // NOI18N
         descriptionTextPane.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         descriptionTextPane.setForeground(new java.awt.Color(255, 255, 255));
         descriptionTextPane.setText(description);
@@ -180,7 +208,7 @@ public class LinkedPanelNode extends javax.swing.JPanel {
         descriptionTextPane.setPreferredSize(new java.awt.Dimension(900, 87));
         descriptionScrollPane.setViewportView(descriptionTextPane);
         //count lines to determine width of scrollpane
-        int lineCount = 1;
+        /*int lineCount = 1;
         FontMetrics fm = descriptionTextPane.getFontMetrics(descriptionTextPane.getFont());
         int width = descriptionTextPane.getPreferredSize().width;
         String text = descriptionTextPane.getText();
@@ -210,13 +238,13 @@ public class LinkedPanelNode extends javax.swing.JPanel {
             newHeight = descriptionScrollPane.getMaximumSize().height;
         }
         descriptionScrollPane.setPreferredSize(new java.awt.Dimension(descriptionScrollPane.getPreferredSize().width, newHeight));
-
+        */
         //move scrollbar to the top of the text
         descriptionTextPane.setCaretPosition(0);
 
         contentPanel.add(descriptionScrollPane, new java.awt.GridBagConstraints());
 
-        add(contentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1600, 500));
+        add(contentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1600, 650));
 
         backgroundLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource(background)));
         backgroundLabel.setMaximumSize(new java.awt.Dimension(1600, 900));
@@ -242,8 +270,19 @@ public class LinkedPanelNode extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_continueButtonMouseClicked
 
+    private void previousButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previousButtonMouseClicked
+        // TODO add your handling code here:
+        for (FinishedListener f : listeners) {
+            f.firePrev();
+        }
+    }//GEN-LAST:event_previousButtonMouseClicked
+
     public void addListener(FinishedListener listener) {
         listeners.add(listener);
+    }
+    
+    public ArrayList<FinishedListener> getListeners() {
+        return listeners;
     }
     
     private String description;
@@ -252,6 +291,7 @@ public class LinkedPanelNode extends javax.swing.JPanel {
     private File file;
     //private MediaPanel media;
     private String passCode;
+    private LinkedPanelNode prev;
     private LinkedPanelNode next;
     private ArrayList<FinishedListener> listeners;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -264,6 +304,7 @@ public class LinkedPanelNode extends javax.swing.JPanel {
     private javax.swing.JPanel flowPanel;
     private javax.swing.JLabel padLabel1;
     private javax.swing.JLabel padLabel2;
+    private javax.swing.JButton previousButton;
     private javax.swing.JButton replayButton;
     // End of variables declaration//GEN-END:variables
 
