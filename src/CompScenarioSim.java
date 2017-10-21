@@ -19,22 +19,53 @@ public class CompScenarioSim extends javax.swing.JFrame {
     /**
      * Creates new form ProjectMM
      */
-    public CompScenarioSim(File f) throws FileNotFoundException {
+    public CompScenarioSim(File f, String srcFolder) throws FileNotFoundException {
         Scanner scanner = new Scanner(f);
-        scanner.useDelimiter("\r\n");
+        //scanner.useDelimiter("\r\n");
         
         ArrayList<LinkedPanelNode> nodes = new ArrayList<LinkedPanelNode>();
         
-        String description;
+        String temp;
+        String description = "";
+        String background;
         String movie;
         String passcode;
         
+        while (scanner.hasNextLine()) {
+            //read for description
+            while (scanner.hasNextLine()) {
+                temp = scanner.nextLine();
+                if (temp.equals("end")) {
+                    break;
+                }
+                else {
+                    if (!description.equals("")) {
+                        description += System.getProperty("line.separator");
+                    }
+                    description += temp;
+                }
+            }
+            //read for the rest and add the node
+            background = srcFolder + scanner.next();
+            temp = scanner.next();
+            if (temp.equals("none")) movie = "none";
+            else movie = srcFolder + temp;
+            temp = scanner.next();
+            if (temp.equals("none")) passcode = "none";
+            else passcode = temp;
+            nodes.add(new LinkedPanelNode(description, background, movie, passcode, null));
+            description = "";
+        }
+        /*
         while (scanner.hasNext()) {
             description = scanner.next();
-            movie = scanner.next();
+            //allow for new lines in the description by using a |
+            description = description.replaceAll("\\|", System.getProperty("line.separator"));
+            background = srcFolder + scanner.next();
+            movie = srcFolder + scanner.next();
             passcode = scanner.next();
-            nodes.add(new LinkedPanelNode(description, movie, passcode));
-        }
+            nodes.add(new LinkedPanelNode(description, background, movie, passcode, null));
+        }*/
         for(int i = 1; i < nodes.size(); ++i) {
             nodes.get(i-1).setNext(nodes.get(i));
         }
@@ -94,7 +125,7 @@ public class CompScenarioSim extends javax.swing.JFrame {
             @Override
             public void run() {
                 try {
-                    new CompScenarioSim(new File(System.getProperty("user.dir") + "/src/lab8/lab8.txt")).setVisible(true);
+                    new CompScenarioSim(new File(System.getProperty("user.dir") + "/src/lab8/lab8.txt"), "lab8/").setVisible(true);
                 } catch (FileNotFoundException ex) {
                     System.out.println("Error: file not found" + ex);
                     System.out.println(System.getProperty("user.dir"));

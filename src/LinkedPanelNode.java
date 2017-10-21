@@ -29,52 +29,13 @@ public class LinkedPanelNode extends javax.swing.JPanel {
      * @param _passcode
      * @param _next
      */
-    public LinkedPanelNode(String _description, String _movie, String _passcode, LinkedPanelNode _next) {
+    public LinkedPanelNode(String _description, String _background, String _movie, String _passcode, LinkedPanelNode _next) {
         listeners = new ArrayList<>();
         description = _description;
+        background = _background;
         movie = _movie;
         passCode = _passcode;
         next = _next;
-        initComponents();
-        initVisibility();
-    }
-    
-    public LinkedPanelNode(String _description, String _movie, String _passcode) {
-        listeners = new ArrayList<>();
-        description = _description;
-        movie = _movie;
-        passCode = _passcode;
-        next = null;
-        initComponents();
-        initVisibility();
-    }
-    
-    public LinkedPanelNode(String _description, String _movie, LinkedPanelNode _next) {
-        listeners = new ArrayList<>();
-        description = _description;
-        movie = _movie;
-        passCode = "";
-        next = _next;
-        initComponents();
-        initVisibility();
-    }
-    
-    public LinkedPanelNode(String _description, LinkedPanelNode _next) {
-        listeners = new ArrayList<>();
-        description = _description;
-        movie = "";
-        passCode = "";
-        next = _next;
-        initComponents();
-        initVisibility();
-    }
-
-    public LinkedPanelNode(String _description, String _movie) {
-        listeners = new ArrayList<>();
-        description = _description;
-        movie = _movie;
-        passCode = "";
-        next = null;
         initComponents();
         initVisibility();
     }
@@ -217,10 +178,6 @@ public class LinkedPanelNode extends javax.swing.JPanel {
         descriptionTextPane.setText(description);
         descriptionTextPane.setOpaque(false);
         descriptionTextPane.setPreferredSize(new java.awt.Dimension(900, 87));
-        StyledDocument doc = descriptionTextPane.getStyledDocument();
-        SimpleAttributeSet center = new SimpleAttributeSet();
-        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-        doc.setParagraphAttributes(0, doc.getLength(), center, false);
         descriptionScrollPane.setViewportView(descriptionTextPane);
         //count lines to determine width of scrollpane
         int lineCount = 1;
@@ -239,6 +196,14 @@ public class LinkedPanelNode extends javax.swing.JPanel {
                 }
             }
         }
+
+        //if the description is a single line, make it centered
+        if (lineCount <= 1) {
+            StyledDocument doc = descriptionTextPane.getStyledDocument();
+            SimpleAttributeSet center = new SimpleAttributeSet();
+            StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+            doc.setParagraphAttributes(0, doc.getLength(), center, false);
+        }
         //find a new height within the bounds of the scrollPane
         int newHeight = descriptionScrollPane.getPreferredSize().height * lineCount;
         if (newHeight > descriptionScrollPane.getMaximumSize().height) {
@@ -253,7 +218,10 @@ public class LinkedPanelNode extends javax.swing.JPanel {
 
         add(contentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1600, 500));
 
-        backgroundLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/background.jpg"))); // NOI18N
+        backgroundLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource(background)));
+        backgroundLabel.setMaximumSize(new java.awt.Dimension(1600, 900));
+        backgroundLabel.setMinimumSize(new java.awt.Dimension(1600, 900));
+        backgroundLabel.setPreferredSize(new java.awt.Dimension(1600, 900));
         add(backgroundLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -279,6 +247,7 @@ public class LinkedPanelNode extends javax.swing.JPanel {
     }
     
     private String description;
+    private String background;
     private String movie;
     private File file;
     //private MediaPanel media;
