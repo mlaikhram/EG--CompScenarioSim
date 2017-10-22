@@ -6,7 +6,7 @@
 
 /**
  *
- * @author Matthew
+ * @author Matthew Laikhram
  */
 
 //listener for LinkedPanel to know when a replay movie button is pressed on a linkedPanel

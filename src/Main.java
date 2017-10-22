@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 
 /**
  *
- * @author Matthew
+ * @author Matthew Laikhram
  */
 public class Main {
     public static void main(String args[]) {
@@ -48,7 +48,6 @@ public class Main {
                     System.out.println("Error: file not found" + ex);
                     System.out.println(System.getProperty("user.dir"));
                 }
-                //new CompScenarioSim().setVisible(true);
             }
         });
     }

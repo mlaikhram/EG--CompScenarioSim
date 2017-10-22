@@ -1,14 +1,10 @@
 
 import java.awt.Desktop;
-import java.awt.FontMetrics;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -25,8 +21,10 @@ public class LinkedPanelNode extends javax.swing.JPanel {
     /**
      * Creates new form LinkedPanel
      * @param _description
+     * @param _background
      * @param _movie
      * @param _passcode
+     * @param _prev
      * @param _next
      */
     public LinkedPanelNode(String _description, String _background, String _movie, String _passcode, LinkedPanelNode _prev, LinkedPanelNode _next) {
@@ -206,38 +204,6 @@ public class LinkedPanelNode extends javax.swing.JPanel {
         descriptionTextPane.setOpaque(false);
         descriptionTextPane.setPreferredSize(new java.awt.Dimension(900, 87));
         descriptionScrollPane.setViewportView(descriptionTextPane);
-        //count lines to determine width of scrollpane
-        /*int lineCount = 1;
-        FontMetrics fm = descriptionTextPane.getFontMetrics(descriptionTextPane.getFont());
-        int width = descriptionTextPane.getPreferredSize().width;
-        String text = descriptionTextPane.getText();
-        String line = "";
-        for (int i = 0; i < text.length(); i++) {
-            char c = text.charAt(i);
-            if (c != '\n') {
-                if (fm.stringWidth(line + c) <= width) {
-                    line += c;
-                } else {
-                    ++lineCount;
-                    line = "" + c;
-                }
-            }
-        }
-
-        //if the description is a single line, make it centered
-        if (lineCount <= 1) {
-            StyledDocument doc = descriptionTextPane.getStyledDocument();
-            SimpleAttributeSet center = new SimpleAttributeSet();
-            StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-            doc.setParagraphAttributes(0, doc.getLength(), center, false);
-        }
-        //find a new height within the bounds of the scrollPane
-        int newHeight = descriptionScrollPane.getPreferredSize().height * lineCount;
-        if (newHeight > descriptionScrollPane.getMaximumSize().height) {
-            newHeight = descriptionScrollPane.getMaximumSize().height;
-        }
-        descriptionScrollPane.setPreferredSize(new java.awt.Dimension(descriptionScrollPane.getPreferredSize().width, newHeight));
-        */
         //move scrollbar to the top of the text
         descriptionTextPane.setCaretPosition(0);
 
@@ -258,8 +224,6 @@ public class LinkedPanelNode extends javax.swing.JPanel {
 
     private void continueButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_continueButtonMouseClicked
         if ("".equals(passCode) || "none".equals(passCode) || codeTextField.getText().equals(passCode)) {
-            //if (next == null) System.exit(0);         
-            //codeTextField.setText("Correct Code");
             for (FinishedListener f : listeners) {
                 f.fireFinished();
             }
@@ -270,7 +234,6 @@ public class LinkedPanelNode extends javax.swing.JPanel {
     }//GEN-LAST:event_continueButtonMouseClicked
 
     private void previousButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previousButtonMouseClicked
-        // TODO add your handling code here:
         for (FinishedListener f : listeners) {
             f.firePrev();
         }

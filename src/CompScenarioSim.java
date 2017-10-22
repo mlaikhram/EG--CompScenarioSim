@@ -20,6 +20,9 @@ public class CompScenarioSim extends javax.swing.JFrame {
 
     /**
      * Creates new form ProjectMM
+     * @param f
+     * @param srcFolder
+     * @throws java.io.FileNotFoundException
      */
     public CompScenarioSim(File f, String srcFolder) throws FileNotFoundException {
         
@@ -29,12 +32,11 @@ public class CompScenarioSim extends javax.swing.JFrame {
         setIconImage(img);
         
         Scanner scanner = new Scanner(f);
-        //scanner.useDelimiter("\r\n");
         
         ArrayList<LinkedPanelNode> nodes = new ArrayList<>();
         ArrayList<Boolean> prevLinks = new ArrayList<>();
         
-        String temp = "";
+        String temp;
         boolean playOnOpen = true;
         String description = "";
         String background;
@@ -58,9 +60,6 @@ public class CompScenarioSim extends javax.swing.JFrame {
                     break;
                 }
                 else {
-                    //if (!description.equals("")) {
-                        //description += System.getProperty("line.separator");
-                    //}
                     description += temp;
                 }
             }
@@ -83,16 +82,7 @@ public class CompScenarioSim extends javax.swing.JFrame {
             nodes.add(node);
             description = "";
         }
-        /*
-        while (scanner.hasNext()) {
-            description = scanner.next();
-            //allow for new lines in the description by using a |
-            description = description.replaceAll("\\|", System.getProperty("line.separator"));
-            background = srcFolder + scanner.next();
-            movie = srcFolder + scanner.next();
-            passcode = scanner.next();
-            nodes.add(new LinkedPanelNode(description, background, movie, passcode, null));
-        }*/
+        //link all the nodes together
         link = new LinkedPanel(nodes.get(0));
         for(int i = 1; i < nodes.size(); ++i) {
             nodes.get(i-1).setNext(nodes.get(i));
@@ -110,6 +100,7 @@ public class CompScenarioSim extends javax.swing.JFrame {
     @Override
     public void setVisible(boolean b) {
         super.setVisible(b);
+        //play movie on set visible
         if (b) {
             link.play();
         }
@@ -171,7 +162,6 @@ public class CompScenarioSim extends javax.swing.JFrame {
                     System.out.println("Error: file not found" + ex);
                     System.out.println(System.getProperty("user.dir"));
                 }
-                //new CompScenarioSim().setVisible(true);
             }
         });
     }

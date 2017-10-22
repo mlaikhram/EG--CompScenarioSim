@@ -19,7 +19,7 @@ import javax.media.Player;
 
 /**
  *
- * @author Matthew
+ * @author Matthew Laikhram
  */
 public class MediaPanel extends javax.swing.JPanel {
 
