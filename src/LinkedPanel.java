@@ -20,6 +20,10 @@ public class LinkedPanel extends javax.swing.JPanel implements FinishedListener 
         add(headPanel);
         headPanel.addListener(this);
         //if (headPanel.getMedia() != null) headPanel.getMedia().addListener(this);
+        //headPanel.playMovie();
+    }
+    
+    public void play() {
         headPanel.playMovie();
     }
     

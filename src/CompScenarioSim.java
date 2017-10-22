@@ -1,4 +1,6 @@
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -20,17 +22,27 @@ public class CompScenarioSim extends javax.swing.JFrame {
      * Creates new form ProjectMM
      */
     public CompScenarioSim(File f, String srcFolder) throws FileNotFoundException {
+        
+        java.net.URL url = ClassLoader.getSystemResource("eg_logo.png");
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Image img = kit.createImage(url);
+        setIconImage(img);
+        
         Scanner scanner = new Scanner(f);
         //scanner.useDelimiter("\r\n");
         
-        ArrayList<LinkedPanelNode> nodes = new ArrayList<LinkedPanelNode>();
-        ArrayList<Boolean> prevLinks = new ArrayList<Boolean>();
+        ArrayList<LinkedPanelNode> nodes = new ArrayList<>();
+        ArrayList<Boolean> prevLinks = new ArrayList<>();
         
         String temp = "";
         String description = "";
         String background;
         String movie;
         String passcode;
+        
+        if (scanner.hasNextLine()) {
+            setTitle(scanner.nextLine());
+        }
         
         while (scanner.hasNextLine()) {
             //read for description
@@ -47,14 +59,14 @@ public class CompScenarioSim extends javax.swing.JFrame {
                 }
             }
             //read for the rest and add the node
-            background = srcFolder + scanner.next();
-            temp = scanner.next();
+            background = srcFolder + scanner.nextLine();
+            temp = scanner.nextLine();
             if (temp.equals("none")) movie = "none";
             else movie = srcFolder + temp;
-            temp = scanner.next();
+            temp = scanner.nextLine();
             if (temp.equals("none")) passcode = "none";
             else passcode = temp;
-            temp = scanner.next();
+            temp = scanner.nextLine();
             if (temp.equals("true")) {
                 prevLinks.add(true);
             }
@@ -83,6 +95,14 @@ public class CompScenarioSim extends javax.swing.JFrame {
         link = new LinkedPanel(nodes.get(0));
         initComponents();
         add(link);
+    }
+    
+    @Override
+    public void setVisible(boolean b) {
+        super.setVisible(b);
+        if (b) {
+            link.play();
+        }
     }
     
     /*
