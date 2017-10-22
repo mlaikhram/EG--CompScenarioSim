@@ -202,7 +202,6 @@ public class LinkedPanelNode extends javax.swing.JPanel {
         descriptionTextPane.setBorder(null);
         descriptionTextPane.setContentType("text/html"); // NOI18N
         descriptionTextPane.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        descriptionTextPane.setForeground(new java.awt.Color(255, 255, 255));
         descriptionTextPane.setText(description);
         descriptionTextPane.setOpaque(false);
         descriptionTextPane.setPreferredSize(new java.awt.Dimension(900, 87));

@@ -35,13 +35,19 @@ public class CompScenarioSim extends javax.swing.JFrame {
         ArrayList<Boolean> prevLinks = new ArrayList<>();
         
         String temp = "";
+        boolean playOnOpen = true;
         String description = "";
         String background;
         String movie;
         String passcode;
         
+        //get title for the application
         if (scanner.hasNextLine()) {
             setTitle(scanner.nextLine());
+        }
+        //determine if movies should play on open
+        if (scanner.hasNextLine() && scanner.nextLine().equals("false")) {
+            playOnOpen = false;
         }
         
         while (scanner.hasNextLine()) {
@@ -73,7 +79,8 @@ public class CompScenarioSim extends javax.swing.JFrame {
             else {
                 prevLinks.add(false);
             }
-            nodes.add(new LinkedPanelNode(description, background, movie, passcode, null, null));
+            LinkedPanelNode node = new LinkedPanelNode(description, background, movie, passcode, null, null);
+            nodes.add(node);
             description = "";
         }
         /*
@@ -86,13 +93,16 @@ public class CompScenarioSim extends javax.swing.JFrame {
             passcode = scanner.next();
             nodes.add(new LinkedPanelNode(description, background, movie, passcode, null));
         }*/
+        link = new LinkedPanel(nodes.get(0));
         for(int i = 1; i < nodes.size(); ++i) {
             nodes.get(i-1).setNext(nodes.get(i));
             if (prevLinks.get(i)) {
                 nodes.get(i).setPrev(nodes.get(i-1));
             }
-        }
-        link = new LinkedPanel(nodes.get(0));
+            if (!playOnOpen) {
+                nodes.get(i).addListener(link);
+            }
+        }          
         initComponents();
         add(link);
     }
