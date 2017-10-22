@@ -52,7 +52,7 @@ public class LinkedPanelNode extends javax.swing.JPanel {
                 //media = new MediaPanel(file, this);
             }
             if (passCode.equals("") || passCode.equals("none")){
-                codeTextField.setVisible(false);
+                codePasswordField.setVisible(false);
                 padLabel2.setVisible(false);
             }
             if (prev == null) {
@@ -121,7 +121,7 @@ public class LinkedPanelNode extends javax.swing.JPanel {
         flowPanel = new javax.swing.JPanel();
         replayButton = new javax.swing.JButton();
         padLabel1 = new javax.swing.JLabel();
-        codeTextField = new javax.swing.JTextField();
+        codePasswordField = new javax.swing.JPasswordField();
         padLabel2 = new javax.swing.JLabel();
         previousButton = new javax.swing.JButton();
         continueButton = new javax.swing.JButton();
@@ -152,12 +152,19 @@ public class LinkedPanelNode extends javax.swing.JPanel {
         padLabel1.setText("                 ");
         flowPanel.add(padLabel1, new java.awt.GridBagConstraints());
 
-        codeTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        codeTextField.setText("Input code to continue");
-        codeTextField.setMaximumSize(new java.awt.Dimension(140, 30));
-        codeTextField.setMinimumSize(new java.awt.Dimension(140, 30));
-        codeTextField.setPreferredSize(new java.awt.Dimension(140, 30));
-        flowPanel.add(codeTextField, new java.awt.GridBagConstraints());
+        codePasswordField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        codePasswordField.setPreferredSize(new java.awt.Dimension(140, 30));
+        codePasswordField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                codePasswordFieldActionPerformed(evt);
+            }
+        });
+        codePasswordField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                codePasswordFieldKeyPressed(evt);
+            }
+        });
+        flowPanel.add(codePasswordField, new java.awt.GridBagConstraints());
 
         padLabel2.setText("                 ");
         flowPanel.add(padLabel2, new java.awt.GridBagConstraints());
@@ -223,13 +230,14 @@ public class LinkedPanelNode extends javax.swing.JPanel {
     }//GEN-LAST:event_replayButtonMouseClicked
 
     private void continueButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_continueButtonMouseClicked
-        if ("".equals(passCode) || "none".equals(passCode) || codeTextField.getText().equals(passCode)) {
+        if ("".equals(passCode) || "none".equals(passCode) || new String(codePasswordField.getPassword()).equals(passCode)) {
             for (FinishedListener f : listeners) {
                 f.fireFinished();
             }
+            codePasswordField.setForeground(new java.awt.Color(0, 0, 0));
         }
         else {
-            codeTextField.setText("Incorrect Code");
+            codePasswordField.setForeground(new java.awt.Color(255, 0, 0));
         }
     }//GEN-LAST:event_continueButtonMouseClicked
 
@@ -238,6 +246,14 @@ public class LinkedPanelNode extends javax.swing.JPanel {
             f.firePrev();
         }
     }//GEN-LAST:event_previousButtonMouseClicked
+
+    private void codePasswordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codePasswordFieldKeyPressed
+        codePasswordField.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_codePasswordFieldKeyPressed
+
+    private void codePasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codePasswordFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_codePasswordFieldActionPerformed
 
     public void addListener(FinishedListener listener) {
         listeners.add(listener);
@@ -258,7 +274,7 @@ public class LinkedPanelNode extends javax.swing.JPanel {
     private ArrayList<FinishedListener> listeners;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel backgroundLabel;
-    private javax.swing.JTextField codeTextField;
+    private javax.swing.JPasswordField codePasswordField;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JButton continueButton;
     private javax.swing.JScrollPane descriptionScrollPane;
