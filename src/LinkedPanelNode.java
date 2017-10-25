@@ -1,10 +1,13 @@
 
 import java.awt.Desktop;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -130,9 +133,9 @@ public class LinkedPanelNode extends javax.swing.JPanel {
         descriptionTextPane = new javax.swing.JTextPane();
         backgroundLabel = new javax.swing.JLabel();
 
-        setMaximumSize(new java.awt.Dimension(1600, 900));
-        setMinimumSize(new java.awt.Dimension(1600, 900));
-        setPreferredSize(new java.awt.Dimension(1600, 900));
+        setMaximumSize(new java.awt.Dimension(1200, 675));
+        setMinimumSize(new java.awt.Dimension(1200, 675));
+        setPreferredSize(new java.awt.Dimension(1200, 675));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         flowPanel.setMaximumSize(new java.awt.Dimension(780, 170));
@@ -185,7 +188,7 @@ public class LinkedPanelNode extends javax.swing.JPanel {
         });
         flowPanel.add(continueButton, new java.awt.GridBagConstraints());
 
-        add(flowPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 600, 1600, 300));
+        add(flowPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 450, 1200, 225));
 
         contentPanel.setMaximumSize(new java.awt.Dimension(780, 240));
         contentPanel.setMinimumSize(new java.awt.Dimension(780, 240));
@@ -200,28 +203,28 @@ public class LinkedPanelNode extends javax.swing.JPanel {
         descriptionScrollPane.setMinimumSize(new java.awt.Dimension(900, 33));
         descriptionScrollPane.setOpaque(false);
         descriptionScrollPane.getViewport().setOpaque(false);
-        descriptionScrollPane.setPreferredSize(new java.awt.Dimension(900, 600));
+        descriptionScrollPane.setPreferredSize(new java.awt.Dimension(675, 450));
 
         descriptionTextPane.setEditable(false);
         descriptionTextPane.setBackground(new java.awt.Color(255, 255, 255, 0));
         descriptionTextPane.setBorder(null);
         descriptionTextPane.setContentType("text/html"); // NOI18N
-        descriptionTextPane.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        descriptionTextPane.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         descriptionTextPane.setText(description);
         descriptionTextPane.setOpaque(false);
-        descriptionTextPane.setPreferredSize(new java.awt.Dimension(900, 87));
+        descriptionTextPane.setPreferredSize(new java.awt.Dimension(675, 87));
         descriptionScrollPane.setViewportView(descriptionTextPane);
         //move scrollbar to the top of the text
         descriptionTextPane.setCaretPosition(0);
 
         contentPanel.add(descriptionScrollPane, new java.awt.GridBagConstraints());
 
-        add(contentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1600, 650));
+        add(contentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 487));
 
         backgroundLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource(background)));
         backgroundLabel.setMaximumSize(new java.awt.Dimension(1600, 900));
         backgroundLabel.setMinimumSize(new java.awt.Dimension(1600, 900));
-        backgroundLabel.setPreferredSize(new java.awt.Dimension(1600, 900));
+        backgroundLabel.setPreferredSize(new java.awt.Dimension(1200, 675));
         add(backgroundLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
